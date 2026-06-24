@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bonolo Jeanet · QA Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Space Grotesk', sans-serif; background: #0a0a0a; color: #e5e7eb; }
+
+        /* ========== MOVING CODE BACKGROUND ========== */
+        .code-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+            background: #0a0a0a;
+        }
+
+        .code-line {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            animation: floatUp 20s linear infinite;
+            text-shadow: 0 0 10px rgba(99, 179, 237, 0.02);
+            font-size: 13px;
+            letter-spacing: 0.3px;
+            opacity: 0;
+        }
+
+        .code-line:nth-child(odd) { animation-duration: 22s; }
+        .code-line:nth-child(even) { animation-duration: 18s; }
+        .code-line:nth-child(3n) { animation-duration: 25s; }
+        .code-line:nth-child(5n+2) { animation-duration: 16s; }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
+            100% { transform: translateY(-10vh) translateX(30px) rotate(1deg); opacity: 0; }
+        }
+
+        /* ========== NAVIGATION ========== */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(10,10,10,0.92); backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 16px 8%; display: flex; justify-content: space-between;
+            align-items: center; flex-wrap: wrap; gap: 12px;
+        }
+        .nav-logo { font-size: 1.2rem; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+        .nav-logo span { background: linear-gradient(90deg,#63b3ed,#9f7aea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-links { display: flex; gap: 20px; flex-wrap: wrap; align-items: center; }
+        .nav-links a { color: rgba(255,255,255,0.5); text-decoration: none; font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 11px; letter-spacing: 0.02em; transition: color 0.3s; }
+        .nav-links a:hover, .nav-links a.active { color: #63b3ed; }
+        .nav-cta { background: #63b3ed; color: #0a0a0a !important; padding: 6px 16px; border-radius: 20px; font-weight: 600; transition: background 0.3s, transform 0.2s; }
+        .nav-cta:hover { background: #90cdf4; transform: translateY(-1px); }
+
+        /* ---------- SECTIONS ---------- */
+        section {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; padding: 100px 8% 80px;
+            background: transparent;
+            position: relative;
+            z-index: 1;
+        }
+        section:nth-child(even) { background: rgba(17,17,17,0.7); backdrop-filter: blur(8px); }
+        section:last-child { border-bottom: none; }
+
+        /* ========== HERO ========== */
+        .hero-section {
+            min-height: 100vh; padding: 120px 8% 80px;
+            display: flex; align-items: center;
+            justify-content: center; position: relative;
+            overflow: hidden;
+            background: transparent;
+            z-index: 1;
+        }
+
+        .scanline {
+            position: absolute; width: 100%; height: 1px;
+            background: rgba(99,179,237,0.05); pointer-events: none;
+            z-index: 0; animation: scan 4s linear infinite;
+        }
+        @keyframes scan {
+            0% { top: 0; opacity: 0; } 10% { opacity: 1; }
+            90% { opacity: 1; } 100% { top: 100%; opacity: 0; }
+        }
+
+        .hero-content { position: relative; z-index: 5; text-align: center; max-width: 780px; }
+        .tag {
+            display: inline-block; font-family: 'Space Mono', monospace;
+            font-size: 11px; letter-spacing: 0.18em; color: #63b3ed;
+            text-transform: uppercase; margin-bottom: 20px;
+            border: 1px solid rgba(99,179,237,0.3); padding: 5px 14px;
+            border-radius: 20px; background: rgba(10,10,10,0.6); backdrop-filter: blur(4px);
+        }
+        .name { font-size: clamp(44px,8vw,72px); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: 14px; }
+        .name span { background: linear-gradient(90deg,#63b3ed,#9f7aea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .role { font-size: 16px; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; margin-bottom: 32px; }
+        .cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary { background: #63b3ed; color: #0a0a0a; border: none; padding: 12px 28px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: transform 0.2s, background 0.2s; text-decoration: none; display: inline-block; }
+        .btn-primary:hover { background: #90cdf4; transform: translateY(-2px); }
+        .btn-ghost { background: transparent; color: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.2); padding: 12px 28px; border-radius: 8px; font-family: 'Space Grotesk', sans-serif; font-size: 14px; cursor: pointer; transition: transform 0.2s, border-color 0.2s, color 0.2s; text-decoration: none; display: inline-block; }
+        .btn-ghost:hover { border-color: rgba(255,255,255,0.5); color: white; transform: translateY(-2px); }
+
+        /* ---------- SECTION COMMON ---------- */
+        .section-badge { display: inline-block; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.15em; color: #63b3ed; text-transform: uppercase; margin-bottom: 12px; border: 1px solid rgba(99,179,237,0.2); padding: 4px 14px; border-radius: 20px; background: rgba(10,10,10,0.5); backdrop-filter: blur(4px); }
+        h2 { font-size: 2.6rem; font-weight: 700; margin-bottom: 0.5rem; letter-spacing: -0.03em; background: linear-gradient(90deg,#63b3ed,#9f7aea); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .catchy-sub { font-size: 1.3rem; font-weight: 400; color: rgba(255,255,255,0.6); margin-bottom: 1.8rem; letter-spacing: -0.01em; }
+        .catchy-sub span { background: linear-gradient(90deg,#f093fb,#f5576c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        p { font-size: 1.1rem; line-height: 1.8; color: #c8cdd8; max-width: 800px; margin-bottom: 0.75rem; }
+        .highlight-box { background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); border-left: 3px solid #63b3ed; padding: 16px 24px; border-radius: 0 8px 8px 0; margin: 12px 0 8px; max-width: 800px; }
+        .highlight-box p { margin-bottom: 0; font-size: 1.05rem; color: #e5e7eb; }
+        h3 { font-size: 1.3rem; font-weight: 500; margin-top: 1.8rem; margin-bottom: 0.5rem; color: #e5e7eb; border-left: 3px solid #63b3ed; padding-left: 12px; }
+
+        /* ---------- EXPERIENCE ---------- */
+        .experience-timeline { display: flex; flex-direction: column; gap: 24px; max-width: 900px; margin-top: 8px; }
+        .exp-item { background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 28px 32px; transition: all 0.3s; }
+        .exp-item:hover { background: rgba(20,20,20,0.8); border-color: rgba(99,179,237,0.15); transform: translateX(4px); }
+        .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+        .exp-title { font-size: 1.25rem; font-weight: 600; color: #e5e7eb; }
+        .exp-company { font-size: 1rem; color: #63b3ed; }
+        .exp-date { font-family: 'Space Mono', monospace; font-size: 0.8rem; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.04); padding: 3px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.06); white-space: nowrap; }
+        .exp-desc { margin-top: 12px; display: flex; flex-direction: column; gap: 4px; }
+        .exp-desc li { list-style-type: '▹ '; padding-left: 6px; color: #b0b8c5; line-height: 1.8; font-size: 0.95rem; }
+        .exp-desc li::marker { color: #63b3ed; }
+
+        /* ========== SKILLS - FLOATING ANIMATION ========== */
+        #skills {
+            position: relative;
+            overflow: visible;
+        }
+
+        .skills-floating {
+            position: relative;
+            width: 100%;
+            min-height: 450px;
+            display: none;
+            margin: 20px 0;
+        }
+
+        .skill-floating {
+            position: absolute;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(10,10,10,0.7);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #d1d5db;
+            cursor: default;
+            white-space: nowrap;
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .skill-floating img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0.8) invert(0.9);
+        }
+
+        .skill-floating:hover {
+            background: rgba(99,179,237,0.15);
+            border-color: rgba(99,179,237,0.3);
+            transform: scale(1.1) !important;
+            color: #fff;
+        }
+
+        .skill-floating:hover img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* Regular skills container */
+        .skills-container {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+            margin-top: 20px;
+        }
+
+        .skills-container.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .skills-container .skill-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0 24px;
+        }
+
+        .skills-container .skill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            background: rgba(10,10,10,0.6);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #d1d5db;
+            transition: all 0.3s ease;
+            cursor: default;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .skills-container .skill img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0.8) invert(0.9);
+            transition: filter 0.25s;
+        }
+
+        .skills-container .skill:hover {
+            background: rgba(99,179,237,0.12);
+            border-color: rgba(99,179,237,0.3);
+            transform: scale(1.05);
+            color: #fff;
+        }
+
+        .skills-container .skill:hover img {
+            filter: brightness(0) invert(1);
+        }
+
+        /* ---------- ACHIEVEMENTS ---------- */
+        .achievements-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 20px; max-width: 900px; margin-top: 12px; }
+        .achievement-card { background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 24px; text-align: center; transition: all 0.3s; }
+        .achievement-card:hover { background: rgba(20,20,20,0.8); border-color: rgba(99,179,237,0.15); transform: translateY(-4px); }
+        .achievement-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .achievement-title { font-size: 1.1rem; font-weight: 600; color: #e5e7eb; margin-bottom: 4px; }
+        .achievement-desc { font-size: 0.9rem; color: rgba(255,255,255,0.4); }
+
+        /* ---------- PROJECTS ---------- */
+        .project-card { background: rgba(10,10,10,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.05); border-radius: 16px; padding: 28px 32px; max-width: 900px; margin-bottom: 24px; transition: all 0.3s; }
+        .project-card:hover { background: rgba(20,20,20,0.8); border-color: rgba(99,179,237,0.15); transform: translateY(-2px); }
+        .project-card:last-child { margin-bottom: 0; }
+        .project-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+        .expand-icon { font-size: 1.4rem; color: #63b3ed; transition: transform 0.3s; flex-shrink: 0; margin-top: 2px; }
+        .project-card.open .expand-icon { transform: rotate(180deg); }
+        .project-expanded { animation: fadeIn 0.25s ease; }
+        @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+        .code-snippet { margin-top: 20px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(255,255,255,0.07); }
+        .code-header { display: flex; justify-content: space-between; align-items: center; background: rgba(10,10,10,0.8); padding: 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+        .code-lang { font-family: 'Space Mono', monospace; font-size: 11px; color: #63b3ed; letter-spacing: 0.08em; }
+        .copy-btn { background: transparent; border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.4); font-family: 'Space Mono', monospace; font-size: 10px; padding: 3px 10px; border-radius: 4px; cursor: pointer; transition: all 0.2s; }
+        .copy-btn:hover { border-color: #63b3ed; color: #63b3ed; }
+        .code-snippet pre { margin: 0; padding: 18px 20px; overflow-x: auto; background: rgba(0,0,0,0.5); }
+        .code-snippet code { font-family: 'Space Mono', monospace; font-size: 12px; line-height: 1.7; color: #c8cdd8; white-space: pre; }
+        .project-actions { display: flex; align-items: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+        .project-actions .btn-primary { font-size: 13px; padding: 10px 22px; }
+
+        /* ---------- CV ---------- */
+        .cv-container { max-width: 900px; width: 100%; }
+        .cv-download-buttons { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0 20px; }
+        .cv-download-buttons a { text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+        .cv-embed { width: 100%; height: 700px; border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; background: rgba(10,10,10,0.6); }
+
+        /* ---------- CONTACT ---------- */
+        .contact-links { display: flex; gap: 24px; flex-wrap: wrap; margin-top: 12px; }
+        .contact-links a { color: #63b3ed; text-decoration: none; font-family: 'Space Mono', monospace; font-size: 0.95rem; border-bottom: 1px solid transparent; transition: border 0.2s; }
+        .contact-links a:hover { border-bottom: 1px solid #63b3ed; }
+
+        /* ---------- CHAT AGENT ---------- */
+        .chat-bubble {
+            position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+            width: 56px; height: 56px; border-radius: 50%;
+            background: linear-gradient(135deg, #63b3ed, #9f7aea);
+            border: none; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; font-size: 24px;
+            box-shadow: 0 4px 20px rgba(99,179,237,0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .chat-bubble:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(99,179,237,0.6); }
+        .chat-bubble .notif {
+            position: absolute; top: -4px; right: -4px; width: 16px; height: 16px;
+            background: #f5576c; border-radius: 50%; border: 2px solid #0a0a0a;
+            font-size: 9px; color: white; display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .chat-panel {
+            position: fixed; bottom: 96px; right: 28px; z-index: 9998;
+            width: 360px; height: 520px; background: rgba(17,17,17,0.95); backdrop-filter: blur(20px);
+            border: 1px solid rgba(99,179,237,0.2); border-radius: 20px;
+            display: none; flex-direction: column; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            animation: slideUp 0.25s ease;
+        }
+        .chat-panel.open { display: flex; }
+        @keyframes slideUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+        .chat-panel-header {
+            padding: 16px 20px; background: rgba(99,179,237,0.06);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .chat-panel-header .agent-info { display: flex; align-items: center; gap: 10px; }
+        .agent-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg,#63b3ed,#9f7aea); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+        .agent-name { font-size: 0.95rem; font-weight: 600; color: #e5e7eb; }
+        .agent-status { font-size: 0.75rem; color: #63b3ed; font-family: 'Space Mono', monospace; }
+        .chat-close { background: none; border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 18px; transition: color 0.2s; }
+        .chat-close:hover { color: white; }
+
+        .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-track { background: transparent; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 4px; }
+
+        .msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 0.88rem; line-height: 1.5; }
+        .msg.agent { background: rgba(99,179,237,0.1); border: 1px solid rgba(99,179,237,0.15); color: #e5e7eb; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg.user { background: linear-gradient(135deg,#63b3ed,#9f7aea); color: #0a0a0a; align-self: flex-end; border-bottom-right-radius: 4px; font-weight: 500; }
+        .msg.typing { background: rgba(99,179,237,0.1); border: 1px solid rgba(99,179,237,0.15); align-self: flex-start; border-bottom-left-radius: 4px; }
+        .typing-dots { display: flex; gap: 4px; padding: 4px 2px; }
+        .typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: #63b3ed; animation: dot 1.2s infinite; }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes dot { 0%,60%,100% { opacity:0.2; transform:scale(0.8); } 30% { opacity:1; transform:scale(1); } }
+
+        .chat-suggestions { padding: 8px 16px; display: flex; gap: 6px; flex-wrap: wrap; }
+        .suggestion { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); font-size: 11px; padding: 5px 10px; border-radius: 20px; cursor: pointer; font-family: 'Space Mono', monospace; transition: all 0.2s; white-space: nowrap; }
+        .suggestion:hover { border-color: #63b3ed; color: #63b3ed; }
+
+        .chat-input-row { padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; gap: 8px; }
+        .chat-input { flex: 1; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 10px 14px; color: #e5e7eb; font-family: 'Space Grotesk', sans-serif; font-size: 0.88rem; outline: none; transition: border-color 0.2s; resize: none; }
+        .chat-input:focus { border-color: rgba(99,179,237,0.4); }
+        .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+        .chat-send { background: linear-gradient(135deg,#63b3ed,#9f7aea); border: none; border-radius: 10px; width: 38px; height: 38px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: opacity 0.2s; flex-shrink: 0; align-self: flex-end; }
+        .chat-send:hover { opacity: 0.85; }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) { nav { padding: 12px 6%; } .nav-links { gap: 12px; } .nav-links a { font-size: 9px; } .nav-cta { padding: 4px 12px; font-size: 9px; } }
+        @media (max-width: 640px) { section { padding: 100px 6% 60px; } h2 { font-size: 2rem; } .catchy-sub { font-size: 1.1rem; } .exp-item { padding: 20px; } .achievements-grid { grid-template-columns: 1fr 1fr; } .cv-embed { height: 450px; } .chat-panel { width: calc(100vw - 32px); right: 16px; } }
+        @media (max-width: 480px) { nav { flex-direction: column; gap: 8px; padding: 10px 6%; } .nav-links { justify-content: center; gap: 10px; } .achievements-grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<!-- ========== MOVING CODE BACKGROUND ========== -->
+<div class="code-background" id="codeBackground"></div>
+
+<!-- ========== NAVIGATION ========== -->
+<nav>
+    <div class="nav-logo">Bonolo<span>.</span></div>
+    <div class="nav-links">
+        <a href="#hero" class="active">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">My Skills</a>
+        <a href="#experience">Experience</a>
+        <a href="#achievements">Achievements</a>
+        <a href="#cv">CV</a>
+        <a href="#contact">Contact</a>
+        <a href="#projects" class="nav-cta">My Projects</a>
+    </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero-section" id="hero">
+    <div class="scanline"></div>
+    <div class="hero-content">
+        <div class="tag">ISTQB® Certified · QA Engineer</div>
+        <h1 class="name">Bonolo<br /><span>Jeanet</span></h1>
+        <p class="role">QA Automation Engineer · Breaking things so users don't have to.</p>
+        <div class="cta-row">
+            <a href="Bonolo_Mohlakoane_CV-QA.pdf" download class="btn-primary">⬇️ Download CV</a>
+            <a href="#cv" class="btn-ghost">👁️ View CV</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ABOUT ========== -->
+<section id="about">
+    <div class="section-badge">about me</div>
+    <h2>Quality is my obsession</h2>
+    <p class="catchy-sub">I break things <span>so you don't have to</span>.</p>
+    <div class="highlight-box">
+        <p><span style="color:#63b3ed;font-weight:600;">▸</span> ISTQB® Certified QA professional with hands-on experience in test automation, API testing, mobile testing, and database validation. Background in Financial Information Systems with strong SQL skills and exposure to full SDLC/STLC methodologies.</p>
+    </div>
+    <p><span style="color:#9f7aea;">✦</span> Skilled in Agile environments with a track record of building scalable, maintainable frameworks and collaborating across development and business teams to deliver quality software.</p>
+    <p><span style="color:#63b3ed;">✦</span> Proven ability to manage multiple tasks, identify process improvements, and communicate technical findings clearly to stakeholders at all levels.</p>
+    <p><span style="color:#f093fb;">✦</span> When not automating, exploring new tools, contributing to open-source, or dreaming up the next framework. <span style="color:rgba(255,255,255,0.3);">(okay, maybe just the next test suite)</span></p>
+    <p style="margin-top:16px;font-size:1.2rem;color:rgba(255,255,255,0.4);">Let's build something unbreakable — together.</p>
+</section>
+
+<!-- ========== MY SKILLS - FLOATING ANIMATION ========== -->
+<section id="skills">
+    <div class="section-badge">toolkit</div>
+    <h2>My Skills</h2>
+
+    <!-- Floating skills container -->
+    <div class="skills-floating" id="skillsFloating"></div>
+
+    <!-- Regular skills container -->
+    <div class="skills-container" id="skillsContainer">
+        <div>
+            <h3>Testing &amp; QA</h3>
+            <div class="skill-group">
+                <span class="skill">Manual Testing</span>
+                <span class="skill">Test Case Development</span>
+                <span class="skill">Functional Testing</span>
+                <span class="skill">Regression Testing</span>
+                <span class="skill">Negative Testing</span>
+                <span class="skill">Defect Logging</span>
+                <span class="skill">Static Documentation Review</span>
+                <span class="skill">Peer Review</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>Automation</h3>
+            <div class="skill-group">
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg" alt="Selenium" /> Selenium WebDriver</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg" alt="Playwright" /> Playwright</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" /> Java</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="TestNG" /> TestNG</span>
+                <span class="skill"><img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Karate_software_logo.svg" alt="Karate" style="filter:brightness(0) invert(0.9);" /> Karate Framework</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Maven" /> Maven</span>
+                <span class="skill">Appium</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>API Testing</h3>
+            <div class="skill-group">
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman" /> REST API Testing</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Karate" /> Karate</span>
+                <span class="skill">API Validation</span>
+                <span class="skill">LambdaTest</span>
+                <span class="skill">BrowserStack</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>Databases</h3>
+            <div class="skill-group">
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" /> SQL</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" /> MySQL</span>
+                <span class="skill">Relational Database Concepts</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>Tools &amp; DevOps</h3>
+            <div class="skill-group">
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" /> Git</span>
+                <span class="skill">GitHub Actions</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="Jenkins" /> Jenkins</span>
+                <span class="skill"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" alt="Jira" /> Jira</span>
+                <span class="skill">TestRail</span>
+                <span class="skill">Gatling</span>
+                <span class="skill">k6</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>Methodologies</h3>
+            <div class="skill-group">
+                <span class="skill">Agile</span>
+                <span class="skill">Waterfall</span>
+                <span class="skill">RAD</span>
+                <span class="skill">Spiral Model</span>
+                <span class="skill">SDLC</span>
+                <span class="skill">STLC</span>
+            </div>
+        </div>
+
+        <div>
+            <h3>Soft Skills</h3>
+            <div class="skill-group">
+                <span class="skill">Strong Communication</span>
+                <span class="skill">Stakeholder Liaison</span>
+                <span class="skill">Knowledge Transfer</span>
+                <span class="skill">Self-Motivated</span>
+                <span class="skill">Team Player</span>
+                <span class="skill">Adaptable</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== EXPERIENCE ========== -->
+<section id="experience">
+    <div class="section-badge">experience</div>
+    <h2>Where I've worked</h2>
+    <p style="margin-bottom:20px;color:rgba(255,255,255,0.4);font-size:1rem;">Building quality, one test at a time.</p>
+    <div class="experience-timeline">
+        <div class="exp-item">
+            <div class="exp-header">
+                <div>
+                    <span class="exp-title">Software Testing Intern</span>
+                    <span class="exp-company"> · Dial Testing Lab (DTL)</span>
+                </div>
+                <span class="exp-date">Aug 2025</span>
+            </div>
+            <ul class="exp-desc">
+                <li>Designed and executed manual test cases, test scenarios, and RTM for web applications; documented in a dedicated manual testing portfolio.</li>
+                <li>Performed functional, regression, smoke, and exploratory testing; validated expected vs actual results and reported defects using JIRA-style reporting.</li>
+                <li>Hands-on web application testing using Playwright for automated UI testing.</li>
+                <li>Cross-browser and cloud testing using LambdaTest to validate application behaviour across different browsers and environments.</li>
+                <li>Performed API testing using REST methods (GET, POST, PUT, PATCH, DELETE).</li>
+                <li>Automated REST API calls for user registration and management using Karate Framework; validated API responses and data integrity.</li>
+                <li>Mobile application testing including functional validation and API-level testing for Android apps using Appium.</li>
+                <li>Performed performance testing using Gatling to simulate load scenarios and assess application behaviour under stress.</li>
+                <li>Designed and implemented a hybrid test automation framework for a banking web application covering UI automation, API testing, database validation, TestRail reporting, and parallel execution.</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ========== ACHIEVEMENTS ========== -->
+<section id="achievements">
+    <div class="section-badge">achievements</div>
+    <h2>Certifications &amp; Awards</h2>
+    <p style="margin-bottom:20px;color:rgba(255,255,255,0.4);font-size:1rem;">Recognized for excellence in quality assurance and testing.</p>
+    <div class="achievements-grid">
+        <div class="achievement-card">
+            <div class="achievement-icon">🏅</div>
+            <div class="achievement-title">ISTQB® Certified</div>
+            <div class="achievement-desc">Foundation Level (CTFL) · 2025</div>
+        </div>
+        <div class="achievement-card">
+            <div class="achievement-icon">🔒</div>
+            <div class="achievement-title">ISO/IEC 27001:2022</div>
+            <div class="achievement-desc">Lead Auditor · 2025</div>
+        </div>
+        <div class="achievement-card">
+            <div class="achievement-icon">🎓</div>
+            <div class="achievement-title">Diploma</div>
+            <div class="achievement-desc">Financial Information Systems · 2022–2024</div>
+        </div>
+        <div class="achievement-card">
+            <div class="achievement-icon">📊</div>
+            <div class="achievement-title">SQL Capstone</div>
+            <div class="achievement-desc">Airport Management System · WSU</div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CV ========== -->
+<section id="cv">
+    <div class="section-badge">resume</div>
+    <h2>My CV</h2>
+    <p style="margin-bottom:12px;color:rgba(255,255,255,0.4);">Download or view my CV to learn more about my skills, experience, and qualifications.</p>
+    <div class="cv-container">
+        <div class="cv-download-buttons">
+            <a href="Bonolo_Mohlakoane_CV-QA.pdf" download class="btn-primary">⬇️ Download CV (PDF)</a>
+            <a href="Bonolo_Mohlakoane_CV-QA.pdf" target="_blank" class="btn-ghost">👁️ Open in New Tab</a>
+        </div>
+        <object data="Bonolo_Mohlakoane_CV-QA.pdf" type="application/pdf" class="cv-embed">
+            <p style="padding:40px;text-align:center;color:rgba(255,255,255,0.4);">⚠️ PDF viewer not available. <a href="Bonolo_Mohlakoane_CV-QA.pdf" download style="color:#63b3ed;">Download my CV here</a></p>
+        </object>
+    </div>
+</section>
+
+<!-- ========== PROJECTS ========== -->
+<!-- ========== PROJECTS ========== -->
+<section id="projects">
+    <div class="section-badge">featured</div>
+    <h2>My Projects</h2>
+    <p style="margin-bottom:20px;color:rgba(255,255,255,0.4);font-size:1rem;">Click any card to expand — see the code, stack, and repo. ↓</p>
+
+    <!-- PROJECT 1: Banking -->
+    <div class="project-card" onclick="toggleProject(this)" style="cursor:pointer;">
+        <div class="project-header">
+            <div>
+                <h3 style="margin-top:0;border:none;padding:0;font-size:1.2rem;background:linear-gradient(90deg,#63b3ed,#9f7aea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Banking Automation Framework (ParaBank)</h3>
+                <p style="margin:6px 0 0;font-size:0.9rem;color:rgba(255,255,255,0.4);">Karate DSL · Playwright · Java · Maven · MySQL · TestRail · JUnit 5</p>
+            </div>
+            <span class="expand-icon">▾</span>
+        </div>
+        <div class="project-collapsed">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Hybrid test automation framework for a banking web application — covering UI, API, and database layers in one Maven-based Java project.</p>
+        </div>
+        <div class="project-expanded" style="display:none;">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Hybrid test automation framework for a banking web application — covering UI, API, and database layers in one Maven-based Java project.</p>
+            <ul style="margin:12px 0 0 20px;line-height:1.9;color:#b0b8c5;">
+                <li>Automated core banking workflows: login, fund transfers, account creation, loan requests</li>
+                <li>Built API automation with Karate DSL — validating REST responses and data integrity</li>
+                <li>Implemented DB validation via SQL/JDBC to verify account and transaction records</li>
+                <li>Applied Page Object Model (POM) for maintainable UI layer</li>
+                <li>Integrated TestRail reporting + parallel execution via JUnit 5</li>
+                <li>CI/CD pipeline configured with Jenkins and GitHub Actions</li>
+            </ul>
+            <div class="code-snippet">
+                <div class="code-header">
+                    <span class="code-lang">karate · login.feature</span>
+                    <button class="copy-btn" onclick="copyCode(event,this)">Copy</button>
+                </div>
+                <pre><code>Feature: ParaBank Login
+
+  Background:
+    * url baseUrl
+    * def credentials = read('classpath:data/users.json')
+
+  Scenario: Successful login with valid credentials
+    Given path '/parabank/services/bank/login'
+    And param username = credentials.validUser.username
+    And param password = credentials.validUser.password
+    And method get
+    Then status 200
+    And match response.customer.firstName == '#string'
+    And match response.customer.id == '#number'
+
+  Scenario: Login fails with invalid credentials
+    Given path '/parabank/services/bank/login'
+    And param username = 'invalid'
+    And param password = 'wrong'
+    And method get
+    Then status 500</code></pre>
+            </div>
+            <div class="project-actions">
+                <a href="https://github.com/bonolojeanet267-code/Karate_automation" target="_blank" class="btn-primary" onclick="event.stopPropagation()">🐙 View on GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJECT 2: E-Commerce -->
+    <div class="project-card" onclick="toggleProject(this)" style="cursor:pointer;">
+        <div class="project-header">
+            <div>
+                <h3 style="margin-top:0;border:none;padding:0;font-size:1.2rem;background:linear-gradient(90deg,#63b3ed,#9f7aea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">E-Commerce End-to-End Automation Framework</h3>
+                <p style="margin:6px 0 0;font-size:0.9rem;color:rgba(255,255,255,0.4);">Karate · Playwright (Java) · MySQL · Maven · Git · GitHub Actions</p>
+            </div>
+            <span class="expand-icon">▾</span>
+        </div>
+        <div class="project-collapsed">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Full end-to-end framework covering API user creation, UI workflow testing, and backend database validation against FakeStoreAPI.</p>
+        </div>
+        <div class="project-expanded" style="display:none;">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Full end-to-end framework covering API user creation, UI workflow testing, and backend database validation against FakeStoreAPI.</p>
+            <ul style="margin:12px 0 0 20px;line-height:1.9;color:#b0b8c5;">
+                <li>Automated REST API calls (user registration/management) with Karate DSL</li>
+                <li>Built UI scripts with Playwright covering login, add-to-cart, and checkout flows</li>
+                <li>Validated order data and transaction integrity against MySQL using JDBC</li>
+                <li>Ensured consistency across API, UI, and database layers end-to-end</li>
+                <li>GitHub Actions workflow for automated test execution on push</li>
+            </ul>
+            <div class="code-snippet">
+                <div class="code-header">
+                    <span class="code-lang">karate · createUser.feature</span>
+                    <button class="copy-btn" onclick="copyCode(event,this)">Copy</button>
+                </div>
+                <pre><code>Feature: FakeStoreAPI - User Registration
+
+  Background:
+    * url 'https://fakestoreapi.com'
+
+  Scenario: Create a new user via API
+    Given path '/users'
+    And request
+      """
+      {
+        "email": "testuser@qa.com",
+        "username": "bonolo_tester",
+        "password": "securePass123",
+        "name": { "firstname": "Bonolo", "lastname": "Jeanet" }
+      }
+      """
+    And method post
+    Then status 200
+    And match response.id == '#number'</code></pre>
+            </div>
+            <div class="project-actions">
+                <a href="https://github.com/bonolojeanet267-code/Karate_automation" target="_blank" class="btn-primary" onclick="event.stopPropagation()">🐙 View on GitHub</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROJECT 3: Selenium -->
+    <div class="project-card" onclick="toggleProject(this)" style="cursor:pointer;">
+        <div class="project-header">
+            <div>
+                <h3 style="margin-top:0;border:none;padding:0;font-size:1.2rem;background:linear-gradient(90deg,#63b3ed,#9f7aea);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Selenium WebDriver Automation Framework</h3>
+                <p style="margin:6px 0 0;font-size:0.9rem;color:rgba(255,255,255,0.4);">Java · Selenium · Cucumber · Maven · Git · GitHub Actions</p>
+            </div>
+            <span class="expand-icon">▾</span>
+        </div>
+        <div class="project-collapsed">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Built from scratch using Page Object Model (POM), BDD with Cucumber, and OOP principles — ready for CI/CD integration.</p>
+        </div>
+        <div class="project-expanded" style="display:none;">
+            <p style="margin-top:12px;font-size:0.95rem;color:#b0b8c5;">Built from scratch using Page Object Model (POM), BDD with Cucumber, and OOP principles — ready for CI/CD integration.</p>
+            <ul style="margin:12px 0 0 20px;line-height:1.9;color:#b0b8c5;">
+                <li>Functional, regression, and negative test scenarios across multiple modules</li>
+                <li>BDD step definitions with Cucumber — readable Gherkin test scenarios</li>
+                <li>Applied OOP principles — encapsulation, inheritance — across Page classes</li>
+                <li>GitHub Actions workflow for CI/CD pipeline integration</li>
+                <li>Scalable POM structure with shared utilities and driver management</li>
+            </ul>
+            <div class="code-snippet">
+                <div class="code-header">
+                    <span class="code-lang">java · LoginPage.java (POM)</span>
+                    <button class="copy-btn" onclick="copyCode(event,this)">Copy</button>
+                </div>
+                <pre><code>public class LoginPage {
+    private WebDriver driver;
+
+    @FindBy(id = "username")
+    private WebElement usernameField;
+
+    @FindBy(id = "password")
+    private WebElement passwordField;
+
+    @FindBy(css = "input[type='submit']")
+    private WebElement loginBtn;
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    public DashboardPage login(String user, String pass) {
+        usernameField.clear();
+        usernameField.sendKeys(user);
+        passwordField.clear();
+        passwordField.sendKeys(pass);
+        loginBtn.click();
+        return new DashboardPage(driver);
+    }
+}</code></pre>
+            </div>
+            <div class="project-actions">
+                <a href="https://github.com/bonolojeanet267-code/my_selenium_project" target="_blank" class="btn-primary" onclick="event.stopPropagation()">🐙 View on GitHub</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact">
+    <div class="section-badge">let's connect</div>
+    <h2>Get in Touch</h2>
+    <p style="margin-bottom:8px;">I'm always open to new opportunities, collaborations, or just a good chat about testing.</p>
+    <div class="contact-links">
+        <a href="mailto:bonoloeanet267@gmail.com">✉️ bonoloeanet267@gmail.com</a>
+        <a href="https://www.linkedin.com/in/bonolo-mohlakoane-648559355/" target="_blank">🔗 LinkedIn</a>
+        <a href="https://github.com/bonolojeanet267-code" target="_blank">🐙 GitHub</a>
+    </div>
+    <p style="margin-top:28px;font-size:0.9rem;opacity:0.5;">based in South Africa · remote friendly</p>
+</section>
+
+<!-- ========== CHAT AGENT ========== -->
+<button class="chat-bubble" onclick="toggleChat()" title="Ask me anything about Bonolo">
+    💬
+    <span class="notif">1</span>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+        <div class="agent-info">
+            <div class="agent-avatar">🤖</div>
+            <div>
+                <div class="agent-name">Bonolo's Assistant</div>
+                <div class="agent-status">● online · ask me anything</div>
+            </div>
+        </div>
+        <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="msg agent">👋 Hi! I'm Bonolo's portfolio assistant. Ask me anything about her skills, projects, or experience!</div>
+    </div>
+    <div class="chat-suggestions" id="chatSuggestions">
+        <button class="suggestion" onclick="sendSuggestion(this)">What frameworks does she know?</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Tell me about her projects</button>
+        <button class="suggestion" onclick="sendSuggestion(this)">Is she available for work?</button>
+    </div>
+    <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Ask about Bonolo..." rows="1" onkeydown="handleKey(event)"></textarea>
+        <button class="chat-send" onclick="sendMessage()">➤</button>
+    </div>
+</div>
+
+<script>
+    // ========== MOVING CODE BACKGROUND ==========
+    const codeSnippets = [
+        'WebDriver driver = new ChromeDriver();',
+        'driver.get("https://example.com");',
+        'WebElement element = driver.findElement(By.id("username"));',
+        'element.sendKeys("testuser");',
+        'driver.findElement(By.id("password")).sendKeys("pass123");',
+        'driver.findElement(By.cssSelector("input[type=\'submit\']")).click();',
+        'Assert.assertEquals("Welcome", driver.getTitle());',
+        'driver.quit();',
+        'new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.id("result")));',
+        'Select dropdown = new Select(driver.findElement(By.id("dropdown")));',
+        'dropdown.selectByVisibleText("Option 1");',
+        'JavascriptExecutor js = (JavascriptExecutor) driver;',
+        'js.executeScript("window.scrollBy(0,250)");',
+        '@Test public void testLogin() {',
+        '  WebDriver driver = new ChromeDriver();',
+        '  LoginPage loginPage = new LoginPage(driver);',
+        '  DashboardPage dashboard = loginPage.login("user", "pass");',
+        '  Assert.assertTrue(dashboard.isLoaded());',
+        '}',
+        'public class LoginPage {',
+        '  @FindBy(id = "username")',
+        '  private WebElement usernameField;',
+        '  @FindBy(id = "password")',
+        '  private WebElement passwordField;',
+        '  @FindBy(css = "input[type=\'submit\']")',
+        '  private WebElement loginBtn;',
+        '  public DashboardPage login(String user, String pass) {',
+        '    usernameField.sendKeys(user);',
+        '    passwordField.sendKeys(pass);',
+        '    loginBtn.click();',
+        '    return new DashboardPage(driver);',
+        '  }',
+        '}',
+        'List<WebElement> items = driver.findElements(By.className("item"));',
+        'for (WebElement item : items) {',
+        '  System.out.println(item.getText());',
+        '}',
+        'driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);',
+        'Actions actions = new Actions(driver);',
+        'actions.moveToElement(element).click().perform();',
+        'Alert alert = driver.switchTo().alert();',
+        'alert.accept();',
+        'const { chromium } = require("playwright");',
+        '(async () => {',
+        '  const browser = await chromium.launch();',
+        '  const page = await browser.newPage();',
+        '  await page.goto("https://example.com");',
+        '  await page.fill("#username", "testuser");',
+        '  await page.fill("#password", "pass123");',
+        '  await page.click("input[type=\'submit\']");',
+        '  const title = await page.title();',
+        '  expect(title).toBe("Welcome");',
+        '  await browser.close();',
+        '})();',
+        'await page.waitForSelector("#result", { state: "visible" });',
+        'const text = await page.textContent(".message");',
+        'console.log(text);',
+        'await page.selectOption("#dropdown", "option1");',
+        'await page.screenshot({ path: "screenshot.png" });',
+        'await page.evaluate(() => {',
+        '  window.scrollBy(0, 250);',
+        '});',
+        'const elements = await page.$$(".item");',
+        'for (const element of elements) {',
+        '  const text = await element.textContent();',
+        '  console.log(text);',
+        '}',
+        'await page.waitForTimeout(3000);',
+        'await page.keyboard.press("Enter");',
+        'public class Main {',
+        '  public static void main(String[] args) {',
+        '    System.out.println("Hello World");',
+        '    for (int i = 0; i < 10; i++) {',
+        '      if (i % 2 == 0) {',
+        '        System.out.println("Even: " + i);',
+        '      }',
+        '    }',
+        '    List<String> names = new ArrayList<>();',
+        '    names.add("Bonolo");',
+        '    names.add("Jeanet");',
+        '    names.forEach(System.out::println);',
+        '    try {',
+        '      Thread.sleep(1000);',
+        '    } catch (InterruptedException e) {',
+        '      e.printStackTrace();',
+        '    }',
+        '    return 0;',
+        '  }',
+        '}',
+        'private String name;',
+        'public String getName() { return name; }',
+        'public void setName(String name) { this.name = name; }',
+        '@Override',
+        'public String toString() {',
+        '  return "Name: " + name;',
+        '}',
+        'public class Calculator {',
+        '  public int add(int a, int b) { return a + b; }',
+        '  public int subtract(int a, int b) { return a - b; }',
+        '  public int multiply(int a, int b) { return a * b; }',
+        '}',
+        'import java.util.*;',
+        'import java.io.*;',
+        'public interface Vehicle {',
+        '  void start();',
+        '  void stop();',
+        '}',
+        'public class Car implements Vehicle {',
+        '  @Override',
+        '  public void start() { System.out.println("Car started"); }',
+        '  @Override',
+        '  public void stop() { System.out.println("Car stopped"); }',
+        '}',
+    ];
+
+    const background = document.getElementById('codeBackground');
+
+    for (let i = 0; i < 80; i++) {
+        const line = document.createElement('div');
+        line.className = 'code-line';
+        const snippet = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        line.textContent = snippet;
+        line.style.left = Math.random() * 100 + '%';
+        const size = 10 + Math.random() * 16;
+        line.style.fontSize = size + 'px';
+        const opacity = 0.04 + Math.random() * 0.12;
+        line.style.opacity = opacity;
+        const duration = 15 + Math.random() * 25;
+        line.style.animationDuration = duration + 's';
+        const delay = Math.random() * 25;
+        line.style.animationDelay = delay + 's';
+        let color;
+        const colorChoice = Math.random();
+        if (colorChoice < 0.33) {
+            color = `rgba(99, 179, 237, ${opacity * 1.5})`;
+        } else if (colorChoice < 0.66) {
+            color = `rgba(240, 147, 251, ${opacity * 1.3})`;
+        } else {
+            color = `rgba(159, 122, 234, ${opacity * 1.4})`;
+        }
+        line.style.color = color;
+        background.appendChild(line);
+    }
+
+    // ========== FLOATING SKILLS ANIMATION ==========
+    const skillNames = [
+        'Manual Testing', 'Test Case Development', 'Functional Testing',
+        'Regression Testing', 'Negative Testing', 'Defect Logging',
+        'Static Documentation Review', 'Peer Review',
+        'Selenium WebDriver', 'Playwright', 'Java', 'TestNG',
+        'Karate Framework', 'Maven', 'Appium',
+        'REST API Testing', 'Karate', 'API Validation',
+        'LambdaTest', 'BrowserStack', 'SQL', 'MySQL',
+        'Relational Database Concepts', 'Git', 'GitHub Actions',
+        'Jenkins', 'Jira', 'TestRail', 'Gatling', 'k6',
+        'Agile', 'Waterfall', 'RAD', 'Spiral Model', 'SDLC', 'STLC',
+        'Strong Communication', 'Stakeholder Liaison', 'Knowledge Transfer',
+        'Self-Motivated', 'Team Player', 'Adaptable'
+    ];
+
+    const iconMap = {
+        'Selenium WebDriver': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/selenium/selenium-original.svg" alt="Selenium" />',
+        'Playwright': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg" alt="Playwright" />',
+        'Java': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java" />',
+        'TestNG': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="TestNG" />',
+        'Karate Framework': '<img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/Karate_software_logo.svg" alt="Karate" style="filter:brightness(0) invert(0.9);" />',
+        'Maven': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apache/apache-original.svg" alt="Maven" />',
+        'REST API Testing': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Postman" />',
+        'Karate': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" alt="Karate" />',
+        'SQL': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" />',
+        'MySQL': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" />',
+        'Git': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" />',
+        'Jenkins': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg" alt="Jenkins" />',
+        'Jira': '<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" alt="Jira" />',
+    };
+
+    let skillsAnimationPlayed = false;
+    const skillsFloating = document.getElementById('skillsFloating');
+    const skillsContainer = document.getElementById('skillsContainer');
+
+    function createFloatingSkills() {
+        const containerWidth = skillsFloating.offsetWidth || 800;
+        const containerHeight = 450;
+
+        skillsFloating.innerHTML = '';
+
+        skillNames.forEach((skill, index) => {
+            const el = document.createElement('span');
+            el.className = 'skill-floating';
+            const icon = iconMap[skill] || '';
+            el.innerHTML = icon + skill;
+
+            // Random initial position - scattered around
+            const angle = Math.random() * 2 * Math.PI;
+            const radius = 100 + Math.random() * 200;
+            const x = containerWidth / 2 + Math.cos(angle) * radius - 60;
+            const y = containerHeight / 2 + Math.sin(angle) * radius - 20;
+
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            el.style.opacity = '0';
+            el.style.transform = 'scale(0.3) rotate(' + (Math.random() * 360) + 'deg)';
+            el.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            el.dataset.index = index;
+
+            skillsFloating.appendChild(el);
+        });
+    }
+
+    function triggerSkillsAnimation() {
+        if (skillsAnimationPlayed) return;
+        skillsAnimationPlayed = true;
+
+        skillsContainer.classList.remove('visible');
+        skillsContainer.style.display = 'none';
+        skillsFloating.style.display = 'block';
+
+        const items = skillsFloating.querySelectorAll('.skill-floating');
+        const containerWidth = skillsFloating.offsetWidth || 800;
+        const containerHeight = 450;
+
+        // Phase 1: Float up from random positions
+        items.forEach((el, i) => {
+            setTimeout(() => {
+                const randomX = (Math.random() - 0.5) * 100;
+                const randomY = -50 - Math.random() * 80;
+                el.style.opacity = '0.9';
+                el.style.transform = 'translate(' + randomX + 'px, ' + randomY + 'px) scale(1.1) rotate(' + (Math.random() * 6 - 3) + 'deg)';
+                el.style.transition = 'all 0.6s ease-out';
+            }, i * 20);
+        });
+
+        // Phase 2: Gather together
+        setTimeout(() => {
+            const centerX = containerWidth / 2 - 60;
+            const centerY = containerHeight / 2 - 20;
+
+            items.forEach((el, i) => {
+                setTimeout(() => {
+                    const angleOffset = (i / items.length) * 2 * Math.PI;
+                    const radius = 80 + Math.random() * 60;
+                    const targetX = centerX + Math.cos(angleOffset) * radius;
+                    const targetY = centerY + Math.sin(angleOffset) * radius;
+
+                    el.style.transition = 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    el.style.opacity = '1';
+                    el.style.left = targetX + 'px';
+                    el.style.top = targetY + 'px';
+                    el.style.transform = 'scale(1.2) rotate(' + (Math.random() * 4 - 2) + 'deg)';
+                }, i * 15);
+            });
+        }, 1500);
+
+        // Phase 3: Fall away
+        setTimeout(() => {
+            items.forEach((el, i) => {
+                setTimeout(() => {
+                    el.style.transition = 'all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(60px) scale(0.5) rotate(10deg)';
+                }, i * 10);
+            });
+        }, 3000);
+
+        // Phase 4: Show the real skills container
+        setTimeout(() => {
+            skillsFloating.style.display = 'none';
+            skillsContainer.style.display = 'block';
+            // Force reflow for smooth animation
+            void skillsContainer.offsetWidth;
+            skillsContainer.classList.add('visible');
+        }, 4200);
+    }
+
+    // ========== ACTIVE NAVIGATION LINK ==========
+    const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section, .hero-section');
+
+    function updateActiveLink() {
+        let current = '';
+        const scrollPosition = window.scrollY + 100;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+
+            if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                const sectionId = section.getAttribute('id');
+                if (sectionId === 'hero') {
+                    current = 'home';
+                } else {
+                    current = sectionId;
+                }
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            const href = link.getAttribute('href');
+            if (href === '#hero' && current === 'home') {
+                link.classList.add('active');
+            } else if (href === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+
+        // Trigger skills animation when reaching skills section
+        if (current === 'skills' && !skillsAnimationPlayed) {
+            setTimeout(triggerSkillsAnimation, 300);
+        }
+    }
+
+    window.addEventListener('scroll', updateActiveLink);
+    window.addEventListener('load', () => {
+        updateActiveLink();
+        setTimeout(() => {
+            createFloatingSkills();
+            const skillsSection = document.getElementById('skills');
+            const rect = skillsSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                triggerSkillsAnimation();
+            }
+        }, 500);
+    });
+
+    // ========== PROJECT TOGGLE ==========
+    function toggleProject(card) {
+        const expanded = card.querySelector('.project-expanded');
+        const collapsed = card.querySelector('.project-collapsed');
+        const isOpen = card.classList.contains('open');
+        if (isOpen) {
+            card.classList.remove('open');
+            expanded.style.display = 'none';
+            collapsed.style.display = 'block';
+        } else {
+            card.classList.add('open');
+            expanded.style.display = 'block';
+            collapsed.style.display = 'none';
+        }
+    }
+
+    function copyCode(event, btn) {
+        event.stopPropagation();
+        const code = btn.closest('.code-snippet').querySelector('code').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy', 2000);
+        });
+    }
+
+    // ========== CHAT AGENT ==========
+    let chatOpen = false;
+
+    function toggleChat() {
+        chatOpen = !chatOpen;
+        const panel = document.getElementById('chatPanel');
+        const notif = document.querySelector('.chat-bubble .notif');
+        panel.classList.toggle('open', chatOpen);
+        if (chatOpen && notif) notif.style.display = 'none';
+    }
+
+    function sendSuggestion(btn) {
+        const text = btn.textContent;
+        document.getElementById('chatSuggestions').style.display = 'none';
+        addMessage(text, 'user');
+        setTimeout(() => getAgentResponse(text), 300);
+    }
+
+    function handleKey(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('chatInput');
+        const text = input.value.trim();
+        if (!text) return;
+        input.value = '';
+        document.getElementById('chatSuggestions').style.display = 'none';
+        addMessage(text, 'user');
+        setTimeout(() => getAgentResponse(text), 300);
+    }
+
+    function addMessage(text, type) {
+        const messages = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = `msg ${type}`;
+        div.textContent = text;
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+        return div;
+    }
+
+    function addTyping() {
+        const messages = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.className = 'msg typing';
+        div.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+        messages.appendChild(div);
+        messages.scrollTop = messages.scrollHeight;
+        return div;
+    }
+
+    async function getAgentResponse(userMessage) {
+        const typing = addTyping();
+        await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 400));
+        typing.remove();
+
+        const msg = userMessage.toLowerCase();
+        let response = "";
+
+        if (msg.includes('framework') || msg.includes('automation') || msg.includes('tool') || msg.includes('skills') || msg.includes('know') || msg.includes('technologies')) {
+            response = "Bonolo is skilled in Selenium WebDriver, Playwright, Karate DSL, Appium, TestNG, and JUnit 5. She also works with Maven, Git, Jenkins, and GitHub Actions for CI/CD. For API testing, she uses Postman and Karate. Her database skills include SQL and MySQL.";
+        }
+        else if (msg.includes('project') || msg.includes('built') || msg.includes('create') || msg.includes('github') || msg.includes('repo') || msg.includes('code')) {
+            response = "She has built 3 major frameworks: 1) Banking Automation (Karate + Playwright + Java) covering UI, API, and database validation, 2) E-Commerce End-to-End (Karate + Playwright + MySQL) with API automation and UI workflows, and 3) Selenium WebDriver with Cucumber BDD using Page Object Model architecture. All are on GitHub!";
+        }
+        else if (msg.includes('experience') || msg.includes('work') || msg.includes('intern') || msg.includes('job') || msg.includes('career') || msg.includes('professional')) {
+            response = "Bonolo is a Software Testing Intern at Dial Testing Lab (DTL) since August 2025. She does manual testing, automation with Playwright, API testing with Karate, mobile testing with Appium, and performance testing with Gatling. She also built a hybrid test automation framework for a banking application.";
+        }
+        else if (msg.includes('available') || msg.includes('hiring') || msg.includes('opportunity') || msg.includes('open') || msg.includes('work') || msg.includes('looking')) {
+            response = "Yes! Bonolo is actively seeking QA roles, learnerships, and junior positions. She's open to remote and hybrid opportunities in South Africa.";
+        }
+        else if (msg.includes('certif') || msg.includes('istqb') || msg.includes('iso') || msg.includes('qualified') || msg.includes('credential') || msg.includes('license')) {
+            response = "Bonolo is ISTQB® Certified (Foundation Level CTFL - 2025) and ISO/IEC 27001:2022 Lead Auditor certified. She also holds a Diploma in Financial Information Systems from Walter Sisulu University (2022-2024).";
+        }
+        else if (msg.includes('who') || msg.includes('about') || msg.includes('background') || msg.includes('education') || msg.includes('story')) {
+            response = "Bonolo Jeanet Mohlakoane is a QA Automation Engineer based in Gauteng, South Africa. She has a Diploma in Financial Information Systems and is passionate about breaking things so users don't have to! She's ISTQB certified and loves building automation frameworks.";
+        }
+        else if (msg.includes('contact') || msg.includes('email') || msg.includes('linkedin') || msg.includes('reach') || msg.includes('connect')) {
+            response = "You can connect with Bonolo on LinkedIn (linkedin.com/in/bonolo-mohlakoane-648559355/) or check out her work on GitHub (github.com/bonolojeanet267-code).";
+        }
+        else if (msg.includes('location') || msg.includes('where') || msg.includes('south africa') || msg.includes('gauteng')) {
+            response = "Bonolo is based in Gauteng, South Africa, and is open to remote and hybrid work opportunities.";
+        }
+        else {
+            response = "Bonolo is an ISTQB-certified QA Automation Engineer with experience in Selenium, Playwright, Karate, and Appium. She's built multiple automation frameworks and is currently seeking QA roles. Is there something specific you'd like to know about her skills or projects?";
+        }
+
+        addMessage(response, 'agent');
+    }
+</script>
+
+</body>
+</html>
